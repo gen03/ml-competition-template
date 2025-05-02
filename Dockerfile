@@ -34,6 +34,13 @@ RUN mkdir -p /home/kaggle/.jupyter && \
 USER kaggle
 WORKDIR /workspace
 
+# 必要なディレクトリの作成
+RUN mkdir -p /workspace/notebooks \
+    /workspace/data \
+    /workspace/models \
+    /workspace/src \
+    /workspace/config
+
 # Jupyterのポートを公開
 EXPOSE 8888
 

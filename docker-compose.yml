@@ -5,7 +5,11 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./code:/workspace
+      - ./notebooks:/workspace/notebooks
+      - ./data:/workspace/data
+      - ./models:/workspace/models
+      - ./src:/workspace/src
+      - ./config:/workspace/config
       - ~/.vscode-server:/home/kaggle/.vscode-server
     environment:
       - KAGGLE_USERNAME=${KAGGLE_USERNAME}
