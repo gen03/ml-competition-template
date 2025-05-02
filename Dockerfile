@@ -9,11 +9,11 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# 非rootユーザー'ds'の作成
-RUN useradd -m -s /bin/bash ds
+# 非rootユーザー'ml'の作成
+RUN useradd -m -s /bin/bash ml
 
 # Pythonパッケージのインストール
-ENV PATH="/home/ds/.local/bin:${PATH}"
+ENV PATH="/home/ml/.local/bin:${PATH}"
 RUN pip install --no-cache-dir \
     numpy==1.24.3 \
     pandas==2.0.3 \
@@ -23,11 +23,11 @@ RUN pip install --no-cache-dir \
     jupyterlab==4.0.0
 
 # Jupyter設定
-RUN mkdir -p /home/ds/.jupyter && \
-    echo "c.NotebookApp.token = '${JUPYTER_TOKEN}'" > /home/ds/.jupyter/jupyter_notebook_config.py
+RUN mkdir -p /home/ml/.jupyter && \
+    echo "c.NotebookApp.token = '${JUPYTER_TOKEN}'" > /home/ml/.jupyter/jupyter_notebook_config.py
 
 # ユーザーの切り替えとワークディレクトリの設定
-USER ds
+USER ml
 WORKDIR /workspace
 
 # 必要なディレクトリの作成

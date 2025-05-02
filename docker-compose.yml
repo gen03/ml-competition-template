@@ -1,6 +1,6 @@
 version: '3'
 services:
-  ds:
+  ml:
     build: .
     ports:
       - "8888:8888"
