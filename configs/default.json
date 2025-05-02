@@ -1,0 +1,24 @@
+{
+    "data": {
+        "train": "data/input/train.csv",
+        "test": "data/input/test.csv",
+        "submission": "data/output/submission.csv"
+    },
+    "model": {
+        "name": "lightgbm",
+        "params": {
+            "objective": "binary",
+            "metric": "binary_logloss",
+            "boosting_type": "gbdt",
+            "num_leaves": 31,
+            "learning_rate": 0.05,
+            "feature_fraction": 0.9,
+            "bagging_fraction": 0.8,
+            "bagging_freq": 5
+        },
+        "train": {
+            "n_splits": 5,
+            "random_state": 42
+        }
+    }
+}

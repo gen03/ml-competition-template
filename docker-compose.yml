@@ -1,22 +1,14 @@
 version: '3'
 services:
-  kaggle:
+  ds:
     build: .
     ports:
       - "8888:8888"
     volumes:
-      - ./notebooks:/workspace/notebooks
-      - ./data:/workspace/data
-      - ./models:/workspace/models
-      - ./src:/workspace/src
-      - ./config:/workspace/config
-      - ~/.vscode-server:/home/kaggle/.vscode-server
+      - .:/workspace
     environment:
-      - KAGGLE_USERNAME=${KAGGLE_USERNAME}
-      - KAGGLE_KEY=${KAGGLE_KEY}
       - JUPYTER_TOKEN=${JUPYTER_TOKEN}
-      - JUPYTER_PASSWORD=${JUPYTER_PASSWORD}
     working_dir: /workspace
     tty: true
     stdin_open: true
-    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.password=${JUPYTER_PASSWORD}
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token=${JUPYTER_TOKEN}

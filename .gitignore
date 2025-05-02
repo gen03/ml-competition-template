@@ -21,16 +21,40 @@ wheels/
 *.egg
 
 # Jupyter Notebook
-.ipynb_checkpoints
+.ipynb_checkpoints/
+*.ipynb
 
-# VS Code
-.vscode/
-.vscode-server/
-
-# Environment variables
+# Environment
 .env
-.env.local
-.env.*.local
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.idea/
+.vscode/
+.cursor/
+
+# OS
+.DS_Store
+.Trash-1000/
+
+# Logs
+logs/
+*.log
+
+# Data
+data/input/*
+!data/input/.gitkeep
+data/output/*
+!data/output/.gitkeep
+
+# Models
+models/*
+!models/.gitkeep
 
 # Docker
 .docker/
@@ -44,16 +68,3 @@ wheels/
 ehthumbs.db
 Thumbs.db
 .Trash*/
-
-# IDE
-.idea/
-*.swp
-*.swo
-
-# Cursor
-.cursor/
-.cursor.json
-
-# Logs
-*.log
-logs/
