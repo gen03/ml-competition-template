@@ -14,13 +14,8 @@ RUN useradd -m -s /bin/bash ml
 
 # Pythonパッケージのインストール
 ENV PATH="/home/ml/.local/bin:${PATH}"
-RUN pip install --no-cache-dir \
-    numpy==1.24.3 \
-    pandas==2.0.3 \
-    scikit-learn==1.3.0 \
-    lightgbm==4.0.0 \
-    optuna==3.3.0 \
-    jupyterlab==4.0.0
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Jupyter設定
 RUN mkdir -p /home/ml/.jupyter && \
