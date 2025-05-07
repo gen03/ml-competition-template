@@ -1,14 +1,18 @@
-version: '3'
 services:
   ml:
-    build: .
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - GIT_USER_NAME=${GIT_USER_NAME}
+        - GIT_USER_EMAIL=${GIT_USER_EMAIL}
     ports:
       - "8888:8888"
     volumes:
       - .:/workspace
+      - ~/.ssh:/home/ml/.ssh:ro
     environment:
       - JUPYTER_TOKEN=${JUPYTER_TOKEN}
     working_dir: /workspace
     tty: true
     stdin_open: true
-    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token=${JUPYTER_TOKEN}

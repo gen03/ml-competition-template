@@ -19,6 +19,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.pytest_cache/
 
 # Jupyter Notebook
 .ipynb_checkpoints/
@@ -37,29 +38,10 @@ venv.bak/
 .idea/
 .vscode/
 .cursor/
+*.swp
+*.swo
 
 # OS
-.DS_Store
-.Trash-1000/
-
-# Logs
-logs/
-*.log
-
-# Data
-data/input/*
-!data/input/.gitkeep
-data/output/*
-!data/output/.gitkeep
-
-# Models
-models/*
-!models/.gitkeep
-
-# Docker
-.docker/
-
-# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -68,3 +50,20 @@ models/*
 ehthumbs.db
 Thumbs.db
 .Trash*/
+
+# Logs
+logs/
+*.log
+
+# Project specific
+data/input/*
+!data/input/.gitkeep
+data/output/*
+!data/output/.gitkeep
+models/*
+!models/.gitkeep
+features/*
+!features/.gitkeep
+
+# Docker
+.docker/

@@ -1,0 +1,52 @@
+{
+    "name": "ML Competition Template",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "ml",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "editor.formatOnSave": true,
+                "editor.rulers": [
+                    88
+                ],
+                "files.trimTrailingWhitespace": true,
+                "jupyter.alwaysTrustNotebooks": true,
+                "jupyter.enableJupyterNotebooks": true,
+                "jupyter.enablePythonInteractiveCells": true,
+                "jupyter.notebookFileRoot": "${workspaceFolder}",
+                "jupyter.pythonPath": "/usr/local/bin/python",
+                "jupyter.jupytext.formatName": "percent",
+                "python.analysis.extraPaths": [
+                    "${workspaceFolder}"
+                ],
+                "python.terminal.activateEnvironment": true
+            }
+        }
+    },
+    "forwardPorts": [
+        8888
+    ],
+    "postCreateCommand": "pip install -r requirements.txt && chown -R ml:ml /workspace && git config --system user.name \"${GIT_USER_NAME:-Default User}\" && git config --system user.email \"${GIT_USER_EMAIL:-default@example.com}\"",
+    "postStartCommand": "echo 'Container started successfully'",
+    "remoteUser": "ml",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+    ],
+    "runArgs": [
+        "--env-file",
+        "${localWorkspaceFolder}/.env",
+        "--privileged"
+    ]
+}
