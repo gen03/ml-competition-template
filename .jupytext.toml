@@ -2,6 +2,7 @@
 # See https://jupytext.readthedocs.io/en/latest/config.html
 
 # デフォルトのフォーマット設定
+# .pyファイルと.ipynbファイルを同じディレクトリに保存
 formats = "ipynb,py:percent"
 
 # 自動同期の設定
