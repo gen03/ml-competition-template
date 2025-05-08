@@ -1,0 +1,12 @@
+# Jupytext configuration file
+# See https://jupytext.readthedocs.io/en/latest/config.html
+
+# デフォルトのフォーマット設定
+formats = "ipynb,py:percent"
+
+# 自動同期の設定
+sync = true
+
+# メタデータの保持
+notebook_metadata_filter = "jupytext,language_info,execution_count"
+cell_metadata_filter = "execution_count,execution_info"

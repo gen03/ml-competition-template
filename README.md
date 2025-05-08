@@ -76,6 +76,21 @@ PYTHONPATH=/workspace
 - Jupyter Notebookの編集と実行
 - プロットの表示
 
+3. JupytextによるNotebook管理:
+- 初期設定（1回のみ）:
+```bash
+# NotebookとPythonファイルのペアを作成
+jupytext --set-formats ipynb,py:percent notebooks/your_notebook.ipynb
+```
+- 自動同期:
+  - `.ipynb`ファイルはGitで無視され、`.py`ファイルのみをコミット
+  - 保存時に自動的に同期
+- Kaggleへのアップロード:
+```bash
+# PythonファイルからNotebookを生成
+jupytext --to ipynb notebooks/your_notebook.py
+```
+
 ## 実験管理
 
 Weights & Biasesを使用して実験を管理:
