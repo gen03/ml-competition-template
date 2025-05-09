@@ -98,6 +98,83 @@ Weights & Biasesを使用して実験を管理:
 - ハイパーパラメータの管理
 - 結果の可視化
 
+### Wandb設定手順
+
+1. インストールと初期設定:
+```bash
+# Wandbのインストール（requirements.txtに含まれています）
+pip install wandb
+
+# Wandbへのログイン
+wandb login
+# API Keyを入力してください
+```
+
+2. API Keyの取得:
+   - [Weights & Biases](https://wandb.ai/)にアカウント登録
+   - プロフィール設定からAPI Keyを取得
+
+3. 環境変数の設定:
+```bash
+# ローカル環境での設定
+echo "WANDB_API_KEY=your_api_key" >> .env
+echo "WANDB_PROJECT=titanic" >> .env
+echo "WANDB_ENTITY=your_username" >> .env
+```
+
+4. Kaggle環境での設定:
+   - Kaggle Notebookの「Add-ons」→「Secrets」から設定
+   - キー名: `WANDB_API_KEY`
+   - 値: 取得したAPI Key
+
+5. 使用例:
+```python
+import wandb
+
+# プロジェクトの初期化
+run = wandb.init(
+    # チーム名またはユーザー名
+    entity="your-username",
+    # プロジェクト名
+    project="titanic",
+    # 実行名（オプション）
+    name="lgbm-baseline",
+    # ハイパーパラメータとメタデータ
+    config={
+        "learning_rate": 0.05,
+        "n_estimators": 400,
+        "random_seed": 42
+    },
+    # タグ付け（オプション）
+    tags=["baseline", "lightgbm"]
+)
+
+# メトリクスの記録
+wandb.log({
+    "fold": k,
+    "auc": auc,
+    "loss": loss
+})
+
+# ファイルの保存
+wandb.save("submission.csv")
+
+# 実験の終了
+run.finish()
+```
+
+6. 主な機能:
+   - メトリクスの追跡と可視化
+   - ハイパーパラメータの管理
+   - 実験結果の比較
+   - モデルの保存と管理
+   - チームでの実験共有
+
+7. ダッシュボード:
+   - [Weights & Biases](https://wandb.ai/)にアクセス
+   - プロジェクトページで実験結果を確認
+   - メトリクス、ハイパーパラメータ、システム情報を可視化
+
 ## ライセンス
 
 MIT License

@@ -9,6 +9,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import wandb
+from pathlib import Path
+import os
+import platform
 %matplotlib inline
 
 # プロットの設定
@@ -20,22 +23,43 @@ sns.set(font_scale=1.2)
 import warnings
 warnings.filterwarnings('ignore')
 
-# wandbの初期化
-wandb.init(project="titanic-analysis", name="eda")
+# Wandbの初期化
+run = wandb.init(
+    # チーム名またはユーザー名
+    entity=os.getenv("WANDB_ENTITY", "your-username"),
+    # プロジェクト名
+    project=os.getenv("WANDB_PROJECT", "titanic"),
+    # 実行名
+    name="eda-baseline",
+    # ハイパーパラメータとメタデータ
+    config={
+        "data_version": "1.0",
+        "random_seed": 42,
+        "python_version": platform.python_version(),
+        "pandas_version": pd.__version__,
+        "numpy_version": np.__version__
+    },
+    # タグ付け
+    tags=["eda", "baseline"]
+)
 
 # データの読み込み
-train = pd.read_csv('../data/input/train.csv')
-test = pd.read_csv('../data/input/test.csv')
+data_dir = Path("../data/input")
+train_df = pd.read_csv(data_dir / "train.csv")
+test_df = pd.read_csv(data_dir / "test.csv")
 
 # データの形状を確認
-print('Train shape:', train.shape)
-print('Test shape:', test.shape)
+print('Train shape:', train_df.shape)
+print('Test shape:', test_df.shape)
 
 # wandbにデータの基本情報を記録
 wandb.log({
-    "train_shape": train.shape[0],
-    "test_shape": test.shape[0],
-    "features": train.shape[1] - 1  # ターゲット変数を除く
+    "train_shape": train_df.shape,
+    "test_shape": test_df.shape,
+    "train_memory_usage": train_df.memory_usage().sum() / 1024**2,  # MB
+    "test_memory_usage": test_df.memory_usage().sum() / 1024**2,    # MB
+    "train_columns": list(train_df.columns),
+    "test_columns": list(test_df.columns)
 })
 
 # %% [markdown]
@@ -44,10 +68,10 @@ wandb.log({
 # %%
 # 訓練データの基本情報
 print('=== Train Data Info ===')
-train.info()
+train_df.info()
 
 # 基本統計量
-train_stats = train.describe()
+train_stats = train_df.describe()
 print('\n=== Basic Statistics ===')
 print(train_stats)
 
@@ -59,13 +83,13 @@ wandb.log({"train_stats": wandb.Table(dataframe=train_stats)})
 
 # %%
 # 訓練データの欠損値
-train_null = train.isnull().sum()
+train_null = train_df.isnull().sum()
 train_null = train_null[train_null > 0]
 print('=== Train Data Missing Values ===')
 print(train_null)
 
 # テストデータの欠損値
-test_null = test.isnull().sum()
+test_null = test_df.isnull().sum()
 test_null = test_null[test_null > 0]
 print('\n=== Test Data Missing Values ===')
 print(test_null)
@@ -81,12 +105,12 @@ wandb.log({
 
 # %%
 # 全体の生存率
-survival_rate = train['Survived'].mean()
+survival_rate = train_df['Survived'].mean()
 print(f'Overall survival rate: {survival_rate:.2%}')
 
 # 生存者数の可視化
 plt.figure(figsize=(8, 6))
-sns.countplot(data=train, x='Survived')
+sns.countplot(data=train_df, x='Survived')
 plt.title('Survival Distribution')
 plt.show()
 
@@ -99,12 +123,12 @@ wandb.log({"survival_rate": survival_rate})
 # %%
 # 性別と生存率
 plt.figure(figsize=(10, 6))
-sns.barplot(data=train, x='Sex', y='Survived')
+sns.barplot(data=train_df, x='Sex', y='Survived')
 plt.title('Survival Rate by Sex')
 plt.show()
 
 # 性別ごとの生存率を表示
-sex_survival = train.groupby('Sex')['Survived'].mean()
+sex_survival = train_df.groupby('Sex')['Survived'].mean()
 print('\nSurvival Rate by Sex:')
 print(sex_survival)
 
@@ -114,12 +138,12 @@ wandb.log({"sex_survival": dict(sex_survival)})
 # %%
 # 客室クラスと生存率
 plt.figure(figsize=(10, 6))
-sns.barplot(data=train, x='Pclass', y='Survived')
+sns.barplot(data=train_df, x='Pclass', y='Survived')
 plt.title('Survival Rate by Passenger Class')
 plt.show()
 
 # クラスごとの生存率を表示
-class_survival = train.groupby('Pclass')['Survived'].mean()
+class_survival = train_df.groupby('Pclass')['Survived'].mean()
 print('\nSurvival Rate by Class:')
 print(class_survival)
 
@@ -132,13 +156,13 @@ plt.figure(figsize=(12, 5))
 
 # 生存者と死亡者の年齢分布
 plt.subplot(1, 2, 1)
-sns.kdeplot(data=train, x='Age', hue='Survived', multiple="layer")
+sns.kdeplot(data=train_df, x='Age', hue='Survived', multiple="layer")
 plt.title('Age Distribution by Survival')
 
 # 年齢帯ごとの生存率
 plt.subplot(1, 2, 2)
-train['AgeBin'] = pd.qcut(train['Age'], 5)
-sns.barplot(data=train, x='AgeBin', y='Survived')
+train_df['AgeBin'] = pd.qcut(train_df['Age'], 5)
+sns.barplot(data=train_df, x='AgeBin', y='Survived')
 plt.xticks(rotation=45)
 plt.title('Survival Rate by Age Groups')
 
@@ -146,7 +170,7 @@ plt.tight_layout()
 plt.show()
 
 # wandbに年齢帯ごとの生存率を記録
-age_survival = train.groupby('AgeBin')['Survived'].mean()
+age_survival = train_df.groupby('AgeBin')['Survived'].mean()
 wandb.log({"age_survival": dict(age_survival)})
 
 # %% [markdown]
@@ -154,8 +178,8 @@ wandb.log({"age_survival": dict(age_survival)})
 
 # %%
 # 数値変数の相関行列
-numeric_cols = train.select_dtypes(include=['int64', 'float64']).columns
-corr_matrix = train[numeric_cols].corr()
+numeric_cols = train_df.select_dtypes(include=['int64', 'float64']).columns
+corr_matrix = train_df[numeric_cols].corr()
 
 plt.figure(figsize=(10, 8))
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', center=0)
@@ -166,5 +190,5 @@ plt.show()
 wandb.log({"correlation_matrix": wandb.Table(dataframe=corr_matrix)})
 
 # %%
-# wandbの終了
-wandb.finish()
+# 実験の終了
+run.finish()
