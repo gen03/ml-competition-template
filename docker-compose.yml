@@ -1,8 +1,8 @@
+version: '3'
 services:
-  ml:
+  ds:
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile
       args:
         - GIT_USER_NAME=${GIT_USER_NAME}
         - GIT_USER_EMAIL=${GIT_USER_EMAIL}
@@ -10,7 +10,6 @@ services:
       - "8888:8888"
     volumes:
       - .:/workspace
-      - ~/.ssh:/home/ml/.ssh:ro
     environment:
       - JUPYTER_TOKEN=${JUPYTER_TOKEN}
     working_dir: /workspace
