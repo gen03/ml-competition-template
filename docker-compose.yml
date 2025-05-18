@@ -1,14 +1,21 @@
-version: '3'
+version: '3.8'
+
 services:
   ml:
-    build: .
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - GIT_USER_NAME=${GIT_USER_NAME}
+        - GIT_USER_EMAIL=${GIT_USER_EMAIL}
+    volumes:
+      - .:/workspace:cached
+    environment:
+      - PYTHONPATH=/workspace
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN}
     ports:
       - "8888:8888"
-    volumes:
-      - .:/workspace
-    environment:
-      - JUPYTER_TOKEN=${JUPYTER_TOKEN}
-    working_dir: /workspace
-    tty: true
-    stdin_open: true
-    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token=${JUPYTER_TOKEN}
+    user: "1000:1000"
+    command: >
+      bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='${JUPYTER_TOKEN}' --NotebookApp.password='' --ServerApp.token='${JUPYTER_TOKEN}' --ServerApp.password=''"

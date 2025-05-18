@@ -1,0 +1,54 @@
+{
+  "train": {
+    "sex_mapping": {
+      "0": 577,
+      "1": 314
+    },
+    "age_median": 28.0,
+    "age_missing": 0,
+    "fare_median": 14.4542,
+    "fare_missing": 0,
+    "embarked_mode": "S",
+    "embarked_missing": 0,
+    "family_size_stats": {
+      "mean": 1.904601571268238,
+      "std": 1.6134585413550873,
+      "min": 1,
+      "max": 11
+    },
+    "is_alone_ratio": 0.6026936026936027,
+    "title_distribution": {
+      "1": 517,
+      "2": 185,
+      "3": 126,
+      "4": 40,
+      "5": 23
+    }
+  },
+  "test": {
+    "sex_mapping": {
+      "0": 266,
+      "1": 152
+    },
+    "age_median": 27.0,
+    "age_missing": 0,
+    "fare_median": 14.4542,
+    "fare_missing": 0,
+    "embarked_mode": "S",
+    "embarked_missing": 0,
+    "family_size_stats": {
+      "mean": 1.8397129186602872,
+      "std": 1.5190720106373408,
+      "min": 1,
+      "max": 11
+    },
+    "is_alone_ratio": 0.6052631578947368,
+    "title_distribution": {
+      "1": 240,
+      "2": 79,
+      "3": 72,
+      "4": 21,
+      "5": 6
+    }
+  }
+}

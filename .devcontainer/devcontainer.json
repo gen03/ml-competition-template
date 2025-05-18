@@ -1,0 +1,61 @@
+{
+    "name": "ML Competition Template",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+        "args": {
+            "GIT_USER_NAME": "${localEnv:GIT_USER_NAME}",
+            "GIT_USER_EMAIL": "${localEnv:GIT_USER_EMAIL}"
+        }
+    },
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "ml",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-azuretools.vscode-docker",
+                "ms-toolsai.jupyter"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "editor.formatOnSave": true,
+                "editor.rulers": [
+                    88
+                ],
+                "files.trimTrailingWhitespace": true,
+                "jupyter.alwaysTrustNotebooks": true,
+                "jupyter.enableJupyterNotebooks": true,
+                "jupyter.enablePythonInteractiveCells": true,
+                "jupyter.notebookFileRoot": "${workspaceFolder}",
+                "jupyter.pythonPath": "/usr/local/bin/python",
+                "jupyter.jupytext.formatName": "percent",
+                "jupyter.jupytext.notebookMetadataFilter": "-all",
+                "jupyter.jupytext.cellMetadataFilter": "-all",
+                "python.analysis.extraPaths": [
+                    "${workspaceFolder}"
+                ],
+                "python.terminal.activateEnvironment": true
+            }
+        }
+    },
+    "forwardPorts": [
+        8888
+    ],
+    "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && pip install -r requirements.txt && pip install -e .",
+    "postStartCommand": "echo 'Container started successfully'",
+    "remoteUser": "ml",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+    ],
+    "runArgs": [
+        "--env-file",
+        "${localWorkspaceFolder}/.env",
+        "--privileged"
+    ],
+    "remoteEnv": {
+        "PYTHONPATH": "${containerWorkspaceFolder}"
+    }
+}
