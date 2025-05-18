@@ -1,0 +1,38 @@
+# データパス
+paths:
+  train: data/input/train.csv
+  test: data/input/test.csv
+  submission: data/output/submission.csv
+  processed: data/processed
+
+# 特徴量設定
+features:
+  target: Survived
+  categorical:
+    - Sex
+    - Embarked
+    - Pclass
+  numerical:
+    - Age
+    - SibSp
+    - Parch
+    - Fare
+  derived:
+    - FamilySize
+    - Title
+    - CabinType
+
+# 前処理設定
+preprocessing:
+  missing_values:
+    strategy: median
+    categorical_fill: mode
+  encoding:
+    categorical: label
+    target: binary
+  scaling:
+    method: standard
+    features:
+      - Age
+      - Fare
+      - FamilySize

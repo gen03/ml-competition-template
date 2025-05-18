@@ -28,9 +28,10 @@
 │   │   ├── ensemble/       # アンサンブル
 │   │   └── submission/     # 提出用モデル
 │   └── configs/              # 設定ファイル
-│       ├── model/           # モデル設定
-│       ├── feature/         # 特徴量設定
-│       └── experiment/      # 実験設定
+│       ├── model.yaml       # モデル設定
+│       ├── data.yaml        # データ設定
+│       ├── experiment.yaml  # 実験設定
+│       └── wandb.json       # W&B設定
 ├── src/                      # ソースコード
 │   ├── data/                # データ処理
 │   │   ├── loader.py       # データ読み込み

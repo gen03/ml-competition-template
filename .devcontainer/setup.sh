@@ -42,5 +42,20 @@ else
     exit 1
 fi
 
+# Kaggle設定
+if [ ! -z "$KAGGLE_USERNAME" ] && [ ! -z "$KAGGLE_KEY" ]; then
+    echo "Setting up Kaggle configuration..."
+    # Kaggleの認証情報ディレクトリを作成
+    mkdir -p ~/.kaggle
+    # 環境変数から認証情報を取得して設定
+    echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
+    # 権限を設定
+    chmod 600 ~/.kaggle/kaggle.json
+    echo "Kaggle configuration set successfully"
+else
+    echo "Warning: KAGGLE_USERNAME or KAGGLE_KEY not set in .env"
+    exit 1
+fi
+
 # 権限設定（.gitディレクトリを除外）
 find /workspace -not -path "*/\.git/*" -exec chown ml:ml {} \;
