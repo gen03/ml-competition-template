@@ -28,6 +28,8 @@
                 "jupyter.notebookFileRoot": "${workspaceFolder}",
                 "jupyter.pythonPath": "/usr/local/bin/python",
                 "jupyter.jupytext.formatName": "percent",
+                "jupyter.jupytext.notebookMetadataFilter": "-all",
+                "jupyter.jupytext.cellMetadataFilter": "-all",
                 "python.analysis.extraPaths": [
                     "${workspaceFolder}"
                 ],
@@ -38,7 +40,7 @@
     "forwardPorts": [
         8888
     ],
-    "postCreateCommand": "pip install -r requirements.txt && chown -R ml:ml /workspace && git config --system user.name \"${GIT_USER_NAME:-Default User}\" && git config --system user.email \"${GIT_USER_EMAIL:-default@example.com}\"",
+    "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && pip install -r requirements.txt",
     "postStartCommand": "echo 'Container started successfully'",
     "remoteUser": "ml",
     "mounts": [
@@ -46,7 +48,6 @@
     ],
     "runArgs": [
         "--env-file",
-        "${localWorkspaceFolder}/.env",
-        "--privileged"
+        ".env"
     ]
 }
