@@ -2,28 +2,36 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import sys
 from pathlib import Path
+from datetime import datetime
 
+def setup_logger(name, log_dir='logs'):
+    """ロガーの設定"""
+    # ログディレクトリの作成
+    log_dir = Path(log_dir)
+    log_dir.mkdir(parents=True, exist_ok=True)
 
-def setup_logger(name, log_level=logging.INFO):
-    """ロガーの設定を行う関数
-
-    Args:
-        name (str): ロガーの名前
-        log_level (int, optional): ログレベル. Defaults to logging.INFO.
-
-    Returns:
-        logging.Logger: 設定済みのロガー
-    """
+    # ロガーの作成
     logger = logging.getLogger(name)
-    logger.setLevel(log_level)
+    logger.setLevel(logging.INFO)
 
-    # ハンドラの設定
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(log_level)
+    # ファイルハンドラの設定
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    log_file = log_dir / f'{name}_{timestamp}.log'
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.INFO)
+
+    # コンソールハンドラの設定
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+
+    # フォーマッタの設定
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
+    # ハンドラの追加
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
 
     return logger

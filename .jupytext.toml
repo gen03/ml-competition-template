@@ -2,11 +2,7 @@
 # See https://jupytext.readthedocs.io/en/latest/config.html
 
 # デフォルトのフォーマット設定
-# .pyファイルと.ipynbファイルを同じディレクトリに保存
-formats = "ipynb,py:percent"
-
-# 自動同期の設定
-sync = true
+formats = "notebooks//ipynb,notebooks//py:percent"
 
 # メタデータの保持
 notebook_metadata_filter = "jupytext,language_info,execution_count"

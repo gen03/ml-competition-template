@@ -54,19 +54,17 @@ logs/
 *.log
 
 # Project specific
-# 大量データを含むディレクトリ（サイズが大きいため）
-data/input/*
-!data/input/.gitkeep
-data/output/*
-!data/output/.gitkeep
-# 学習済みモデル（サイズが大きいため）
+# データファイル（サイズが大きいもの）
+data/01_raw/*
+data/02_interim/*
+data/03_processed/*
+data/04_features/*
+
+# モデルファイル（サイズが大きいもの）
 models/*
-!models/.gitkeep
-# 特徴量データ（サイズが大きいため）
-features/*
-!features/.gitkeep
-# wandbのログ（サイズが大きいため）
-wandb/*
+
+# wandbのログ
+wandb/
 
 # Docker関連の一般的な除外項目
 .docker/
