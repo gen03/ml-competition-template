@@ -1,4 +1,4 @@
-# Python
+# Python関連の一般的な除外項目（コンパイル済みファイル、キャッシュ、ビルド関連など）
 __pycache__/
 *.py[cod]
 *$py.class
@@ -21,11 +21,10 @@ wheels/
 *.egg
 .pytest_cache/
 
-# Jupyter Notebook
+# Jupyter Notebook関連の一般的な除外項目
 .ipynb_checkpoints/
-*.ipynb
 
-# Environment
+# 環境関連の一般的な除外項目
 .env
 .venv
 env/
@@ -34,14 +33,13 @@ ENV/
 env.bak/
 venv.bak/
 
-# IDE
+# IDE関連の一般的な除外項目
 .idea/
 .vscode/
-.cursor/
 *.swp
 *.swo
 
-# OS
+# OS関連の一般的な除外項目
 .DS_Store
 .DS_Store?
 ._*
@@ -51,19 +49,24 @@ ehthumbs.db
 Thumbs.db
 .Trash*/
 
-# Logs
+# ログ関連の一般的な除外項目
 logs/
 *.log
 
 # Project specific
+# 大量データを含むディレクトリ（サイズが大きいため）
 data/input/*
 !data/input/.gitkeep
 data/output/*
 !data/output/.gitkeep
+# 学習済みモデル（サイズが大きいため）
 models/*
 !models/.gitkeep
+# 特徴量データ（サイズが大きいため）
 features/*
 !features/.gitkeep
+# wandbのログ（サイズが大きいため）
+wandb/*
 
-# Docker
+# Docker関連の一般的な除外項目
 .docker/
