@@ -2,7 +2,11 @@
     "name": "ML Competition Template",
     "build": {
         "dockerfile": "Dockerfile",
-        "context": ".."
+        "context": "..",
+        "args": {
+            "GIT_USER_NAME": "${localEnv:GIT_USER_NAME}",
+            "GIT_USER_EMAIL": "${localEnv:GIT_USER_EMAIL}"
+        }
     },
     "dockerComposeFile": "../docker-compose.yml",
     "service": "ml",
@@ -12,8 +16,8 @@
             "extensions": [
                 "ms-python.python",
                 "ms-python.vscode-pylance",
-                "ms-toolsai.jupyter",
-                "ms-azuretools.vscode-docker"
+                "ms-azuretools.vscode-docker",
+                "ms-toolsai.jupyter"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
@@ -40,7 +44,7 @@
     "forwardPorts": [
         8888
     ],
-    "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && pip install -r requirements.txt",
+    "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh && pip install -r requirements.txt && pip install -e .",
     "postStartCommand": "echo 'Container started successfully'",
     "remoteUser": "ml",
     "mounts": [
@@ -48,6 +52,10 @@
     ],
     "runArgs": [
         "--env-file",
-        ".env"
-    ]
+        "${localWorkspaceFolder}/.env",
+        "--privileged"
+    ],
+    "remoteEnv": {
+        "PYTHONPATH": "${containerWorkspaceFolder}"
+    }
 }
